@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wah Yan Eco-Bridge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Eco-Flight Simulation</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,483 +11,193 @@
     
     <style>
         /* ==========================================================
-           Modern "Pro + Fun" CSS Variables
+           Game Theme Variables
            ========================================================= */
         :root {
-            --brand-primary: #0d9488;    /* Vibrant Teal */
-            --brand-dark: #115e59;       /* Deep Teal */
-            --brand-light: #ccfbf1;      /* Soft Mint */
-            --brand-accent: #f59e0b;     /* Sunny Amber */
-            --brand-accent-light: #fef3c7; 
-            --bg-page: #f8fafc;          /* Clean Slate off-white */
+            --brand-primary: #0d9488;
+            --brand-dark: #115e59;
+            --brand-light: #ccfbf1;
+            --brand-accent: #f59e0b;
+            --brand-accent-light: #fef3c7;
+            --bg-page: #f8fafc;
             --bg-card: #ffffff;
             --text-main: #334155;
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            
             --radius-lg: 24px;
             --radius-md: 16px;
-            --radius-sm: 12px;
-            
             --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             --shadow-md: 0 10px 25px -5px rgba(13, 148, 136, 0.1);
             --shadow-lg: 0 20px 40px -10px rgba(13, 148, 136, 0.15);
-            --shadow-float: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
-            
             --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --smooth: cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Nunito', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
 
         body {
             background-color: var(--bg-page);
             color: var(--text-main);
-            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            padding: 20px;
         }
 
         /* ==========================================================
-           Nature Background Elements
+           Moving Clouds Background
            ========================================================= */
         #nature-background {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;
+            background: linear-gradient(to bottom, #e0f2fe 0%, var(--bg-page) 100%);
         }
-
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.02);
-            animation: floatCloud linear infinite;
-        }
-        .cloud::before, .cloud::after {
-            content: '';
-            position: absolute;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-        }
+        .cloud { position: absolute; background: rgba(255, 255, 255, 0.9); border-radius: 50px; box-shadow: 0 8px 16px rgba(0,0,0,0.02); animation: floatCloud linear infinite; }
+        .cloud::before, .cloud::after { content: ''; position: absolute; background: rgba(255, 255, 255, 0.9); border-radius: 50%; }
         
-        /* Cloud Shapes */
         .c1 { top: 10%; left: -20%; width: 140px; height: 50px; animation-duration: 40s; }
         .c1::before { width: 70px; height: 70px; top: -30px; left: 20px; }
         .c1::after { width: 50px; height: 50px; top: -20px; right: 20px; }
-
         .c2 { top: 35%; left: -30%; width: 200px; height: 60px; animation-duration: 55s; animation-delay: -15s; }
         .c2::before { width: 90px; height: 90px; top: -40px; left: 30px; }
         .c2::after { width: 70px; height: 70px; top: -30px; right: 30px; }
-
         .c3 { top: 15%; left: -10%; width: 120px; height: 40px; animation-duration: 45s; animation-delay: -25s; opacity: 0.7;}
         .c3::before { width: 60px; height: 60px; top: -25px; left: 15px; }
         .c3::after { width: 40px; height: 40px; top: -15px; right: 15px; }
 
-        @keyframes floatCloud {
-            from { transform: translateX(-30vw); }
-            to { transform: translateX(130vw); }
-        }
+        @keyframes floatCloud { from { transform: translateX(-30vw); } to { transform: translateX(130vw); } }
 
         /* ==========================================================
-           Bouncy "Pro-Fun" Buttons
+           UI Buttons
            ========================================================= */
         .btn-modern {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: var(--brand-primary);
-            color: white;
-            padding: 0.85rem 2rem;
-            border-radius: 50px;
-            font-weight: 800;
-            font-size: 1.05rem;
-            border: none;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s var(--bounce);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            user-select: none;
-            cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: var(--brand-primary); color: white; padding: 0.85rem 2rem;
+            border-radius: 50px; font-weight: 800; font-size: 1.05rem; border: none;
+            box-shadow: var(--shadow-md); transition: all 0.3s var(--bounce);
+            text-transform: uppercase; letter-spacing: 1px; user-select: none; cursor: pointer;
         }
-
-        .btn-modern:hover {
-            background: var(--brand-dark);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .btn-modern:active, .btn-modern.active-press {
-            transform: translateY(2px) scale(0.98);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-modern.alt {
-            background: white;
-            color: var(--brand-primary);
-            border: 2px solid var(--brand-primary);
-            box-shadow: var(--shadow-sm);
-        }
-        .btn-modern.alt:hover {
-            background: var(--brand-light);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-float);
-        }
+        .btn-modern:hover { background: var(--brand-dark); transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow-lg); }
+        .btn-modern:active { transform: translateY(2px) scale(0.98); box-shadow: var(--shadow-sm); }
+        .btn-modern.alt { background: white; color: var(--brand-primary); border: 2px solid var(--brand-primary); box-shadow: var(--shadow-sm); }
+        .btn-modern.alt:hover { background: var(--brand-light); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
         /* ==========================================================
-           Sleek Glassmorphism Navigation (No Hamburger)
+           Game Dashboard
            ========================================================= */
-        nav {
-            position: fixed;
-            width: 96%;
-            top: 15px; left: 2%;
-            z-index: 1000;
-            padding: 0.6rem 2%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .logo {
-            font-size: 1.1rem;
-            font-weight: 900;
-            color: var(--text-dark);
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: opacity 0.2s ease;
-            cursor: pointer;
-        }
-        .logo:hover { opacity: 0.7; }
-
-        .nav-links {
-            display: flex;
-            gap: 0.1rem;
-            list-style: none;
-            flex-wrap: wrap; 
-        }
-
-        .btn-nav {
-            background: transparent;
-            color: var(--text-muted);
-            border: none;
-            padding: 0.4rem 0.7rem; 
-            border-radius: 50px;
-            font-size: 0.8rem; 
-            font-weight: 800;
-            transition: all 0.3s var(--smooth);
-            cursor: pointer;
-        }
-
-        .btn-nav:hover {
-            color: var(--brand-primary);
-            background: var(--brand-light);
-        }
+        .game-section { width: 100%; max-width: 1000px; margin: 0 auto; }
         
-        .btn-nav.active-btn {
-            background: var(--brand-primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
-        }
-
-        /* ==========================================================
-           Virtual Page Navigation (SPA Logic)
-           ========================================================= */
-        .page-view {
-            display: none;
-            animation: softFadeIn 0.6s var(--smooth) forwards;
-            min-height: 100vh;
-            padding-top: 120px;
-            padding-bottom: 80px;
-        }
-
-        .page-view.active { display: block; }
-
-        @keyframes softFadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ==========================================================
-           Hero Section (Bright & Airy)
-           ========================================================= */
-        .hero {
-            height: calc(100vh - 140px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: url('https://images.unsplash.com/photo-1473448912268-2022ce9509d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover fixed;
-            margin: 0 2%;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-        }
-
-        .hero-content {
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 3rem;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1.5px;
-            text-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 3rem;
-            color: rgba(255,255,255,0.95);
-        }
-
-        /* ==========================================================
-           Content Pages
-           ========================================================= */
-        .content-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 4%;
-        }
-
-        .split-card {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: all 0.4s var(--smooth);
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        .split-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: var(--shadow-lg); 
-        }
-
-        .split-image {
-            width: 100%; height: 100%;
-            min-height: 450px;
-            object-fit: cover;
-        }
-
-        .split-text {
-            padding: 5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .section-number {
-            color: var(--brand-accent);
-            font-weight: 900;
-            letter-spacing: 2px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .split-text h2 {
-            font-size: 3rem;
-            color: var(--text-dark);
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            line-height: 1.15;
-            letter-spacing: -1px;
-        }
-
-        .split-text p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            line-height: 1.8;
-        }
-
-        .fact-box {
-            background: var(--brand-accent-light);
-            padding: 1.5rem 2rem;
-            border-radius: var(--radius-md);
-            margin-top: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border: 2px dashed #fcd34d;
-        }
-
-        .fact-box button {
-            background: var(--brand-accent);
-            color: white;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 50px;
-            font-weight: 800;
-            flex-shrink: 0;
-            cursor: pointer;
-            transition: all 0.2s var(--bounce);
-        }
-
-        .fact-box button:hover { transform: scale(1.05); }
-
-        /* ==========================================================
-           Modern Game Dashboard
-           ========================================================= */
-        .game-section {
-            max-width: 1000px;
-            margin: 5rem auto;
-            padding: 0 4%;
-        }
-
         .game-dashboard {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            padding: 4rem;
-            box-shadow: var(--shadow-lg);
-            text-align: center;
-            position: relative;
-            border: 1px solid rgba(0,0,0,0.03);
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px);
+            border-radius: var(--radius-lg); padding: 3rem; box-shadow: var(--shadow-lg);
+            text-align: center; position: relative; border: 1px solid rgba(255,255,255,0.4);
         }
 
         .canvas-wrapper {
-            position: relative;
-            width: 800px;
-            max-width: 100%;
-            margin: 3rem auto 2rem;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 4px solid var(--brand-light);
+            position: relative; width: 100%; max-width: 800px; margin: 1.5rem auto 2rem;
+            border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 4px solid var(--brand-light); background: #bae6fd; transition: all 0.3s;
         }
 
         #gameCanvas {
+            display: block; width: 100%; height: auto; aspect-ratio: 2/1;
+            object-fit: contain; touch-action: none;
             background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%); 
-            display: block;
-            width: 100%;
         }
 
-        /* Modern Overlays */
-        .game-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* --- Fullscreen HUD (Points, Lives, High Score) --- */
+        .score-board-fullscreen {
+            position: absolute; top: 15px; left: 15px; display: none; gap: 10px;
+            z-index: 15; pointer-events: none; /* Prevents blocking taps */
+        }
+        
+        /* Only show the HUD when inside Fullscreen or Faux-Fullscreen */
+        #canvasContainer:fullscreen .score-board-fullscreen { display: flex; }
+        .faux-fullscreen .score-board-fullscreen { display: flex; }
+
+        .score-board-fullscreen .score-badge {
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem; min-width: 80px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             text-align: center;
-            padding: 2rem;
-            backdrop-filter: blur(8px);
-            z-index: 10;
+        }
+        .score-board-fullscreen .score-badge span { font-size: 1.4rem; }
+
+        /* --- iOS Fallback Faux-Fullscreen --- */
+        .faux-fullscreen {
+            position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            max-width: none !important; margin: 0 !important; z-index: 999999 !important;
+            border-radius: 0 !important; background: #bae6fd !important;
+            display: flex !important; align-items: center !important; justify-content: center !important;
+        }
+        .faux-fullscreen #gameCanvas {
+            width: 100vw !important; height: 100vh !important; height: 100dvh !important;
+            max-width: 100% !important; max-height: 100% !important;
+            border-radius: 0 !important; object-fit: contain !important;
+        }
+        .faux-fullscreen .game-overlay { border-radius: 0 !important; }
+
+        /* --- Standard Fullscreen API Styles --- */
+        #canvasContainer:fullscreen { 
+            background: #bae6fd; display: flex; align-items: center; justify-content: center; 
+            border: none; border-radius: 0; max-width: none; width: 100vw; height: 100vh; margin: 0;
+        }
+        #canvasContainer:fullscreen #gameCanvas { 
+            width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; 
+            object-fit: contain; border-radius: 0; 
+        }
+        #canvasContainer:fullscreen .game-overlay { border-radius: 0; }
+
+        /* Fullscreen Button */
+        #fullscreenBtn { 
+            position: absolute; top: 15px; right: 15px; z-index: 20; 
+            background: rgba(255,255,255,0.7); border: 2px solid white; border-radius: 8px; 
+            padding: 5px 12px; cursor: pointer; font-size: 1.2rem; font-weight: bold; 
+            backdrop-filter: blur(4px); box-shadow: 0 4px 6px rgba(0,0,0,0.15); 
+            transition: all 0.2s; color: var(--text-dark); 
+        }
+        #fullscreenBtn:hover { background: rgba(255,255,255,0.95); transform: scale(1.1); }
+
+        .game-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85); display: none; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 2rem;
+            backdrop-filter: blur(8px); z-index: 10;
         }
 
         .trivia-box {
-            background: white;
-            padding: 3rem;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            max-width: 90%;
-            border: 2px solid var(--brand-light);
+            background: white; padding: 3rem; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg); max-width: 90%; border: 2px solid var(--brand-light);
         }
-
         .trivia-box h3 { color: var(--brand-primary); font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
         .trivia-question { font-size: 1.6rem; font-weight: 900; color: var(--text-dark); margin-bottom: 2rem; line-height: 1.3; }
-        
         .trivia-options { display: flex; flex-direction: column; gap: 12px; }
 
-        .score-board {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 30px;
-        }
-
+        /* Normal Desktop Scoreboard */
+        .score-board { display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; margin-top: 30px; }
         .score-badge {
-            background: var(--bg-page);
-            padding: 1rem 2rem;
-            border-radius: var(--radius-md);
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-            min-width: 120px;
+            background: white; padding: 1rem 2rem; border-radius: var(--radius-md);
+            font-size: 0.9rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 1px; box-shadow: var(--shadow-sm); min-width: 120px;
         }
         .score-badge span { color: var(--brand-primary); font-size: 1.6rem; display: block; font-weight: 900; }
 
-        #confettiCanvas {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9998;
-        }
+        #confettiCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9998; }
 
         /* Disguised Developer Mode Button */
-        #devModeBtn {
-            position: absolute;
-            bottom: 15px;
-            right: 25px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-family: monospace;
-            font-size: 0.85rem;
-            font-weight: 700;
-            opacity: 0.3;
-            cursor: pointer;
-            z-index: 20;
-            transition: opacity 0.2s ease;
-        }
-        
-        #devModeBtn:hover {
-            opacity: 0.8;
-        }
+        #devModeBtn { position: absolute; bottom: 15px; right: 25px; background: transparent; border: none; color: var(--text-muted); font-family: monospace; font-size: 0.85rem; font-weight: 700; opacity: 0.3; cursor: pointer; z-index: 20; transition: opacity 0.2s ease; }
+        #devModeBtn:hover { opacity: 0.8; }
 
-        /* ==========================================================
-           Mobile Responsive Adjustments
-           ========================================================= */
+        /* Mobile Adjustments */
         @media (max-width: 900px) {
-            .split-card { grid-template-columns: 1fr; }
-            .split-image { height: 300px; min-height: auto; }
-            .split-text { padding: 3rem 2rem; }
-            .hero h1 { font-size: 3.5rem; }
-            
-            nav { 
-                padding: 1rem 1.5rem; 
-                flex-direction: column; 
-                border-radius: 20px;
-            }
-            .nav-links { 
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                width: 100%; 
-                margin-top: 1rem;
-                padding-top: 1rem;
-                border-top: 1px solid rgba(0,0,0,0.1);
-            }
-            .page-view { padding-top: 180px; }
             .game-dashboard { padding: 2rem 1rem; }
+            .score-badge { min-width: 100px; padding: 0.8rem 1rem; }
+            #fullscreenBtn { font-size: 1rem; padding: 4px 8px; }
+            h2 { font-size: 2rem !important; }
+            
+            .score-board-fullscreen { top: 10px; left: 10px; gap: 5px; }
+            .score-board-fullscreen .score-badge { padding: 0.4rem 0.6rem; min-width: 60px; font-size: 0.7rem; border-radius: 8px;}
+            .score-board-fullscreen .score-badge span { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -501,266 +211,116 @@
 
     <canvas id="confettiCanvas"></canvas>
 
-    <nav>
-        <div class="logo" onclick="navigateTo('page-home', document.querySelectorAll('.btn-nav')[0])">
-            Wah Yan Eco-Bridge
-        </div>
-        
-        <ul class="nav-links" id="navLinks">
-            <li><button class="btn-nav active-btn" onclick="navigateTo('page-home', this)">Overview</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-goal', this)">Objective</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-uv', this)">UV Material</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-uv-how', this)">Mechanism</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-dimensions', this)">Dimensions</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-butterflies', this)">Biology</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-greenhouse', this)">Thermodynamics</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-future', this)">Future</button></li>
-            <li><button class="btn-nav" onclick="navigateTo('page-thanks', this)">Special Thanks</button></li>
-        </ul>
-    </nav>
-
-    <div id="page-home" class="page-view active">
-        <header class="hero">
-            <div class="hero-content">
-                <h1>WAH YAN <br>ECO-BRIDGE</h1>
-                <p>An innovative architectural solution protecting local biodiversity through advanced material science and compassionate design.</p>
-                <div style="margin-top: 2rem;">
-                    <button class="btn-modern" onclick="navigateTo('page-goal', document.querySelectorAll('.btn-nav')[1])">
-                        Explore the Project
-                    </button>
+    <div class="game-section">
+        <div class="game-dashboard">
+            <h2 style="font-size: 2.8rem; font-weight: 900; color: var(--text-dark); margin-bottom: 5px;">Eco-Flight Simulation</h2>
+            
+            <div class="canvas-wrapper" id="canvasContainer">
+                <button id="fullscreenBtn" aria-label="Toggle Fullscreen" title="Go Fullscreen">⛶</button>
+                
+                <div class="score-board-fullscreen">
+                    <div class="score-badge">Score<br><span id="fsScoreDisplay">0</span></div>
+                    <div class="score-badge">Lives<br><span id="fsLivesDisplay">0</span></div>
+                    <div class="score-badge">High<br><span id="fsHighScoreDisplay">0</span></div>
                 </div>
-            </div>
-        </header>
 
-        <div class="content-container" style="margin-top: -4rem; position: relative; z-index: 5;">
-            <div class="split-card" style="box-shadow: var(--shadow-lg);">
-                <div class="split-text">
-                    <span class="section-number">Welcome</span>
-                    <h2>Protecting Campus Biodiversity</h2>
-                    <p>Welcome to the Wah Yan Eco-Bridge initiative. Explore our site to discover how we are blending architecture with biological compassion to protect and save local butterfly populations.</p>
+                <canvas id="gameCanvas" width="800" height="400"></canvas>
+                
+                <div id="instructionsOverlay" class="game-overlay" style="display: flex;">
+                    <div class="trivia-box" style="text-align: left; padding: 2rem; max-width: 500px;">
+                        <h3 style="text-align: center; color: var(--brand-primary); font-size: 1.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 1.5rem;">📖 How to Play</h3>
+                        <p style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 12px;">🦋 <strong>Controls:</strong> Tap the screen or press SPACEBAR to jump.</p>
+                        <p style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 12px;">🧱 <strong>Hazards:</strong> Avoid hitting the pillars. Beware of artificial lights after 15 points (they pull you in!).</p>
+                        <p style="font-size: 1.1rem; color: var(--text-dark); margin-bottom: 12px;">🌸 <strong>Bonuses:</strong> Collect pink flowers for an Extra Life.</p>
+                        <p style="font-size: 1.15rem; color: var(--brand-accent); font-weight: 800; margin-bottom: 15px; text-align: center;">🏆 <strong>Goal:</strong> Reach 50 points to win!</p>
+                        
+                        <p style="font-size: 1.05rem; color: var(--text-dark); font-weight: 700; margin-bottom: 25px; text-align: center; border-top: 2px dashed #bae6fd; padding-top: 15px;">
+                            🎁 <strong>Reward:</strong> Win the game to get a free butterfly keychain, OR donate 1 token at our booth to get one instantly!
+                        </p>
+                        
+                        <button id="closeInstructionsBtn" class="btn-modern" style="width: 100%;">OK, Got it!</button>
+                    </div>
                 </div>
-                <img src="https://picsum.photos/seed/butterfly1/1000/800" alt="Beautiful campus nature and wildlife" class="split-image">
-            </div>
-        </div>
 
-        <section class="game-section">
-            <div class="game-dashboard">
-                <h2 style="font-size: 2.8rem; font-weight: 900; color: var(--text-dark); margin-bottom: 10px;">Eco-Flight Simulation</h2>
-                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 10px;">
-                    Use the <strong>SPACEBAR</strong> or tap the screen to navigate through the structure.
-                </p>
-                <div style="background: var(--brand-accent-light); padding: 10px 20px; border-radius: 50px; display: inline-block; margin-bottom: 20px;">
-                    <p style="font-size: 1rem; color: #b45309; font-weight: 800; margin: 0;">
-                        ⚠️ Lights appear after 15 score. Evade magnetic pull!<br>
-                        🌸 Eat flowers (every 10 points) for an Extra Life!
+                <div id="triviaOverlay" class="game-overlay">
+                    <div class="trivia-box">
+                        <h3>✨ Second Chance Protocol</h3>
+                        <div id="triviaQuestionText" class="trivia-question">Question goes here?</div>
+                        <div id="triviaOptionsContainer" class="trivia-options"></div>
+                    </div>
+                </div>
+
+                <div id="countdownOverlay" class="game-overlay" style="background: rgba(255,255,255,0.85); flex-direction: column;">
+                    <div id="countdownMessage" style="font-size: 2.5rem; color: var(--brand-accent); font-weight: 900; margin-bottom: 20px;"></div>
+                    <div id="countdownNumber" style="font-size: 7rem; font-weight: 900; color: var(--brand-primary);">3</div>
+                </div>
+
+                <div id="deathOverlay" class="game-overlay">
+                    <h2 style="font-size: 3.5rem; color: var(--text-dark); font-weight: 900; margin-bottom: 10px;">Oops!</h2>
+                    <p id="deathReasonText" style="font-size: 1.4rem; margin-bottom: 30px; font-weight: 600; color: var(--text-muted);"></p>
+                    <button class="btn-modern" onclick="forceRestart()">🔄 Try Again</button>
+                </div>
+
+                <div id="winOverlay" class="game-overlay" style="background: rgba(255,255,255,0.95);">
+                    <h2 style="font-size: 4rem; color: var(--brand-accent); font-weight: 900; margin-bottom: 0;">You Won! 🎉</h2>
+                    <p style="font-size: 1.8rem; margin-bottom: 15px; font-weight: 900; color: var(--brand-primary);">Score of 50 Reached!</p>
+                    <p style="font-size: 1.2rem; margin-bottom: 30px; font-weight: 700; color: var(--text-dark); max-width: 600px; padding: 0 20px; line-height: 1.6;">
+                        Congratulations! Show this screen at our booth to claim your free butterfly keychain!
                     </p>
+                    <button class="btn-modern" onclick="forceRestart()">🔄 Play Again</button>
                 </div>
-                
-                <div class="canvas-wrapper">
-                    <canvas id="gameCanvas" width="800" height="400"></canvas>
-                    
-                    <div id="triviaOverlay" class="game-overlay">
-                        <div class="trivia-box">
-                            <h3>✨ Second Chance Protocol</h3>
-                            <div class="trivia-hint">💡 Hint: The information needed is given in the pages above!</div>
-                            <div id="triviaQuestionText" class="trivia-question">Question goes here?</div>
-                            <div id="triviaOptionsContainer" class="trivia-options">
-                                </div>
-                        </div>
-                    </div>
-
-                    <div id="countdownOverlay" class="game-overlay" style="background: rgba(255,255,255,0.85); flex-direction: column;">
-                        <div id="countdownMessage" style="font-size: 2.5rem; color: var(--brand-accent); font-weight: 900; margin-bottom: 20px;"></div>
-                        <div id="countdownNumber" style="font-size: 7rem; font-weight: 900; color: var(--brand-primary);">3</div>
-                    </div>
-
-                    <div id="deathOverlay" class="game-overlay">
-                        <h2 style="font-size: 3.5rem; color: var(--text-dark); font-weight: 900;">Oops!</h2>
-                        <p id="deathReasonText" style="font-size: 1.4rem; margin-bottom: 30px; font-weight: 600; color: var(--text-muted);"></p>
-                        <button class="btn-modern" onclick="forceRestart()">
-                            🔄 Try Again (Spacebar)
-                        </button>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 2rem; position:relative;">
+            </div>
+            
+            <div style="margin-top: 1.5rem; position:relative;">
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                     <button id="startBtn" class="btn-modern" style="padding: 1rem 3rem; font-size: 1.2rem;">
-                        ▶️ Play Simulation
+                        ▶️ Start Simulation
                     </button>
-                    <div class="score-board">
-                        <div class="score-badge">Score<br><span id="scoreDisplay">0</span></div>
-                        <div class="score-badge">Extra Lives<br><span id="livesDisplay">0</span></div>
-                        <div class="score-badge">High Score<br><span id="highScoreDisplay">0</span></div>
-                    </div>
-                    
-                    <button id="devModeBtn" aria-label="Dev Mode">v1.2.4</button>
+                    <button id="infoBtn" class="btn-modern alt" style="padding: 1rem 2rem; font-size: 1.2rem;">
+                        ℹ️ Instructions
+                    </button>
                 </div>
-            </div>
-        </section>
-    </div>
 
-    <div id="page-goal" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <img src="https://picsum.photos/seed/nature2/1000/800" alt="Butterfly near structure" class="split-image">
-                <div class="split-text">
-                    <span class="section-number">01. The Objective</span>
-                    <h2>Goal of the Project</h2>
-                    <p>We observed that butterflies often became trapped within the original footbridge, finding it difficult to escape. Our new design specifically addresses this issue, ensuring a safer passage for local insect populations.</p>
+                <div class="score-board">
+                    <div class="score-badge">Score<br><span id="scoreDisplay">0</span></div>
+                    <div class="score-badge">Extra Lives<br><span id="livesDisplay">0</span></div>
+                    <div class="score-badge">High Score<br><span id="highScoreDisplay">0</span></div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-uv" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <div class="split-text">
-                    <span class="section-number">02. Material Science</span>
-                    <h2>UV-Reflective Coating</h2>
-                    <p>To prevent birds and insects from colliding with the glass, we decided to apply a UV-reflective coating. This makes the panels visible to wildlife while maintaining visual transparency for humans.</p>
-                </div>
-                <img src="https://picsum.photos/seed/glass3/1000/800" alt="Reflective architectural glass" class="split-image">
-            </div>
-        </div>
-    </div>
-
-    <div id="page-uv-how" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <img src="https://picsum.photos/seed/macro4/1000/800" alt="Macro detail of butterfly wing" class="split-image">
-                <div class="split-text">
-                    <span class="section-number">03. Technology</span>
-                    <h2>How Does the Coating Work?</h2>
-                    <p>Designed for use on various materials—including glass, metals, and fabrics—UV-reflective coatings interact with light spectrums beyond human perception. However, because birds and butterflies possess UV-sensitive eyes, these coatings remain visible to them.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-dimensions" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <div class="split-text">
-                    <span class="section-number">04. Specifications</span>
-                    <h2>Information</h2>
-                    <p>With a length of 12.9 meters, a width of 1.8 meters, and a peak height of 3.5 meters, the bridge closely mirrors the scale of the original footbridge, ensuring optimal utility and seamless integration into the environment.</p>
-                </div>
-                <img src="https://picsum.photos/seed/bridge5/1000/800" alt="Structural footbridge" class="split-image">
-            </div>
-        </div>
-    </div>
-
-    <div id="page-butterflies" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <img src="https://picsum.photos/seed/bio6/1000/800" alt="Butterfly navigating" class="split-image">
-                <div class="split-text">
-                    <span class="section-number">05. Biology</span>
-                    <h2>Characteristics of Butterflies</h2>
-                    <p>Butterflies exhibit phototaxis, an instinctive drive to move toward light sources. This biological behavior leads them to navigate toward the sun or artificial bulbs, as they use bright points to orient themselves during flight.</p>
-                    
-                    <div class="fact-box">
-                        <button onclick="triggerFact('fact2')">Pop Fact! 🎈</button>
-                        <span id="fact2" style="font-size: 1rem; font-weight: 700; color: var(--text-dark);">Click the button for a butterfly fact!</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-greenhouse" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <div class="split-text">
-                    <span class="section-number">06. Thermodynamics</span>
-                    <h2>The Greenhouse Effect</h2>
-                    <p>Will the sunlight shine into the bridge and make the inside too hot? The answer is no. The UV-reflective coating also significantly reduces the greenhouse effect, ensuring the interior remains at a comfortable temperature.</p>
-                </div>
-                <img src="https://picsum.photos/seed/sun7/1000/800" alt="Controlled temperature environment" class="split-image">
-            </div>
-        </div>
-    </div>
-
-    <div id="page-future" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <img src="https://picsum.photos/seed/future8/1000/800" alt="Urban light reflection" class="split-image">
-                <div class="split-text">
-                    <span class="section-number">07. Next Steps</span>
-                    <h2>Considerations for the Future</h2>
-                    <p>We acknowledge that light reflected from the glass side panels might impact the surrounding community. However, we were unable to execute a formal experiment to quantify these reflections during the initial phase.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-thanks" class="page-view">
-        <div class="content-container">
-            <div class="split-card">
-                <div class="split-text">
-                    <span class="section-number">08. Acknowledgements</span>
-                    <h2>Special Thanks</h2>
-                    <p style="margin-bottom: 2rem;">We would like to extend our deepest gratitude to the incredible team and supporters who made this project and vision possible.</p>
-                    
-                    <div style="background: var(--bg-page); padding: 1.5rem; border-radius: var(--radius-sm); border-left: 4px solid var(--brand-primary); margin-bottom: 1rem;">
-                        <h3 style="color: var(--brand-primary); font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Website Development</h3>
-                        <p style="font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">Perley Lo & Nathan Tse</p>
-                    </div>
-
-                    <div style="background: var(--bg-page); padding: 1.5rem; border-radius: var(--radius-sm); border-left: 4px solid var(--text-muted); margin-bottom: 1rem;">
-                        <h3 style="color: var(--text-muted); font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">3D & Physical Model</h3>
-                        <p style="font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">Jason Yang & Fang Liangyu</p>
-                    </div>
-
-                    <div style="background: var(--bg-page); padding: 1.5rem; border-radius: var(--radius-sm); border-left: 4px solid var(--brand-accent);">
-                        <h3 style="color: var(--brand-accent); font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.25rem;">Valuable Advice</h3>
-                        <p style="font-size: 1.15rem; font-weight: 700; color: var(--text-dark);">Ms Prudence Chan, Mr Edward Yeung & all the special guests from The Hong Kong Polytechnic University</p>
-                    </div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Teamwork and collaboration" class="split-image">
+                
+                <button id="devModeBtn" aria-label="Dev Mode">v1.2.4</button>
             </div>
         </div>
     </div>
 
     <script>
         /* ==========================================================
-           Fun Fact Generator (Sequential)
+           Instructions Overlay Logic
            ========================================================= */
-        const facts = [
-            "Butterflies taste food with their feet! 🦶",
-            "A group of butterflies is called a kaleidoscope. 🌈",
-            "Butterflies can see colors that humans can't. 🎨",
-            "The top flight speed of a butterfly is 12 mph! 🏎️",
-            "Many adult butterflies only live for 1 to 2 weeks. ⏳",
-            "Butterflies breathe through tiny openings on their abdomen. 🌬️"
-        ];
-        
-        let currentFactIndex = 0;
+        const instructionsOverlay = document.getElementById('instructionsOverlay');
+        const closeInstructionsBtn = document.getElementById('closeInstructionsBtn');
+        const infoBtn = document.getElementById('infoBtn');
+        let isPaused = false;
 
-        function triggerFact(elementId) {
-            const factDisplay = document.getElementById(elementId);
-            const nextFact = facts[currentFactIndex];
-            factDisplay.innerText = nextFact;
-            currentFactIndex = (currentFactIndex + 1) % facts.length;
-            fireConfetti();
-        }
+        infoBtn.addEventListener("click", () => {
+            instructionsOverlay.style.display = "flex";
+            if (isPlaying) {
+                isPaused = true;
+                isPlaying = false;
+                cancelAnimationFrame(gameLoop);
+            }
+        });
+
+        closeInstructionsBtn.addEventListener("click", () => {
+            instructionsOverlay.style.display = "none";
+            if (isPaused) {
+                isPaused = false;
+                isPlaying = true;
+                animate();
+            }
+        });
 
         /* ==========================================================
-           Page Navigation
-           ========================================================= */
-        function navigateTo(pageId, btnElement) {
-            document.querySelectorAll('.page-view').forEach(page => page.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            
-            document.querySelectorAll('.btn-nav').forEach(btn => btn.classList.remove('active-btn'));
-            if (btnElement) btnElement.classList.add('active-btn');
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        /* ==========================================================
-           Happy Confetti Engine (+ 67 Easter Egg ONLY)
+           Happy Confetti Engine
            ========================================================= */
         const confCanvas = document.getElementById('confettiCanvas');
         const confCtx = confCanvas.getContext('2d');
@@ -774,11 +334,13 @@
         let particles = [];
         const colors = ['#0d9488', '#f59e0b', '#34d399', '#f472b6'];
 
-        function fireConfetti() {
-            // ONLY execute if the score is EXACTLY 67. No other confetti will spawn anywhere.
-            if (score !== 67) return;
+        function fireConfetti(isWin = false) {
+            if (score !== 67 && !isWin) return;
 
-            for(let i=0; i<67; i++) {
+            let particleCount = isWin ? 150 : 67;
+            let displayString = isWin ? "50" : "67";
+
+            for(let i=0; i<particleCount; i++) {
                 particles.push({
                     x: Math.random() * confCanvas.width,
                     y: -20,
@@ -788,7 +350,8 @@
                     color: colors[Math.floor(Math.random() * colors.length)],
                     tilt: Math.floor(Math.random() * 10) - 10,
                     tiltAngleIncrement: (Math.random() * 0.07) + 0.05,
-                    tiltAngle: 0
+                    tiltAngle: 0,
+                    text: displayString
                 });
             }
         }
@@ -802,11 +365,9 @@
                 p.x += Math.sin(p.tiltAngle) * 2;
                 
                 confCtx.beginPath();
-                
-                // Because we only spawn when score === 67, we can just draw the 67 text reliably.
                 confCtx.font = "900 " + (p.r * 2.5) + "px Nunito";
                 confCtx.fillStyle = p.color;
-                confCtx.fillText("67", p.x, p.y);
+                confCtx.fillText(p.text, p.x, p.y);
                 
                 if(p.y > confCanvas.height) {
                     particles.splice(i, 1);
@@ -818,22 +379,85 @@
         animateConfetti();
 
         /* ==========================================================
-           Modern Game Logic - FIXED & OPTIMIZED
+           Modern Game Logic & Fullscreen Fallbacks
            ========================================================= */
         const canvas = document.getElementById("gameCanvas");
+        const canvasContainer = document.getElementById("canvasContainer");
+        const fullscreenBtn = document.getElementById("fullscreenBtn");
         const ctx = canvas.getContext("2d");
+        
+        // Dashboard Elements
         const startBtn = document.getElementById("startBtn");
         const scoreDisplay = document.getElementById("scoreDisplay");
         const livesDisplay = document.getElementById("livesDisplay");
         const highScoreDisplay = document.getElementById("highScoreDisplay");
+        
+        // Fullscreen HUD Elements
+        const fsScoreDisplay = document.getElementById("fsScoreDisplay");
+        const fsLivesDisplay = document.getElementById("fsLivesDisplay");
+        const fsHighScoreDisplay = document.getElementById("fsHighScoreDisplay");
+
         const triviaOverlay = document.getElementById("triviaOverlay");
         const deathOverlay = document.getElementById("deathOverlay");
+        const winOverlay = document.getElementById("winOverlay"); 
         const countdownOverlay = document.getElementById("countdownOverlay");
         const countdownMessage = document.getElementById("countdownMessage");
         const countdownNumber = document.getElementById("countdownNumber");
         const triviaQuestionText = document.getElementById("triviaQuestionText");
         const triviaOptionsContainer = document.getElementById("triviaOptionsContainer");
         const deathReasonText = document.getElementById("deathReasonText");
+
+        /* iOS/iPadOS Fallback Fullscreen API Logic */
+        function toggleFullscreen() {
+            const isTrueFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+            const isFauxFullscreen = canvasContainer.classList.contains('faux-fullscreen');
+
+            if (!isTrueFullscreen && !isFauxFullscreen) {
+                if (canvasContainer.requestFullscreen) {
+                    canvasContainer.requestFullscreen().catch(err => enableFauxFullscreen());
+                } else if (canvasContainer.webkitRequestFullscreen) {
+                    canvasContainer.webkitRequestFullscreen();
+                } else {
+                    enableFauxFullscreen();
+                }
+            } else {
+                if (isTrueFullscreen) {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                }
+                if (isFauxFullscreen) {
+                    disableFauxFullscreen();
+                }
+            }
+        }
+
+        function enableFauxFullscreen() {
+            canvasContainer.classList.add('faux-fullscreen');
+            fullscreenBtn.innerText = "✖";
+            fullscreenBtn.title = "Exit Fullscreen";
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function disableFauxFullscreen() {
+            canvasContainer.classList.remove('faux-fullscreen');
+            fullscreenBtn.innerText = "⛶";
+            fullscreenBtn.title = "Go Fullscreen";
+            document.body.style.overflow = '';
+        }
+
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        const handleFullscreenChange = () => {
+            if (document.fullscreenElement || document.webkitFullscreenElement) {
+                fullscreenBtn.innerText = "✖";
+                fullscreenBtn.title = "Exit Fullscreen";
+            } else {
+                fullscreenBtn.innerText = "⛶";
+                fullscreenBtn.title = "Go Fullscreen";
+            }
+        };
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 
         let gameLoop;
         let isPlaying = false;
@@ -844,21 +468,28 @@
         let extraLives = 0;
         let scoreToSpawnFlower = 10;
         let highScore = localStorage.getItem('modernEcoBridgeScore') || 0;
+        
+        // Initialize High Scores displays
         highScoreDisplay.innerText = highScore;
+        fsHighScoreDisplay.innerText = highScore;
 
+        // Dynamic speed for Dev Mode
+        let speed = 4;
         let devModeActive = false;
+
         document.getElementById('devModeBtn').addEventListener('click', () => {
             let pass = prompt("Enter Developer Passcode:");
             if (pass === "1215") {
                 devModeActive = true;
-                alert("🛠️ Developer Mode Activated!");
+                speed = 40; 
+                alert("🛠️ Developer Mode Activated! (Invincible & 10x Faster)");
             }
         });
 
         const triviaQuestions = [
-            { q: "What biological instinct drives butterflies toward light sources?", options: ["Thermotaxis", "Phototaxis", "Chemotaxis"], correct: 1 },
-            { q: "What is the primary function of the UV-Reflective coating on the bridge?", options: ["Thermal insulation", "Attracts local birds", "Prevents wildlife collisions"], correct: 2 },
-            { q: "How does the bridge design address the internal Greenhouse Effect?", options: ["It traps heat completely", "The UV coating reduces the effect", "It requires mechanical cooling"], correct: 1 },
+            { q: "What biological instinct drives butterflies towards light sources?", options: ["Thermotaxis", "Phototaxis", "Chemotaxis"], correct: 1 },
+            { q: "What is the primary function of the UV-reflective coating on the bridge?", options: ["Thermal insulation", "Attracts local birds", "Prevents wildlife collisions"], correct: 2 },
+            { q: "How does the bridge design address the internal greenhouse effect?", options: ["It traps heat completely", "The UV coating reduces the effect", "It requires mechanical cooling"], correct: 1 },
             { q: "To human perception, how does the UV-reflective coating appear?", options: ["Opaque green", "Visually transparent", "Luminescent at night"], correct: 1 }
         ];
 
@@ -882,7 +513,6 @@
         let flowers = [];
         const pillarWidth = 65;
         const gap = 170;
-        const speed = 4;
 
         function clearCurrentObstacles() {
             pillars = [];
@@ -893,20 +523,35 @@
             butterfly.velocity = 0;
         }
 
+        function handleWin() {
+            isPlaying = false;
+            cancelAnimationFrame(gameLoop);
+            isDead = true; 
+            winOverlay.style.display = "flex";
+            fireConfetti(true); 
+        }
+
         function updateScore() {
             score++;
             scoreDisplay.innerText = score;
-            if (score === 67) fireConfetti(); 
+            fsScoreDisplay.innerText = score;
+            
+            if (score === 67) fireConfetti(false); 
             
             if (score > highScore) {
                 highScore = score;
                 highScoreDisplay.innerText = highScore;
+                fsHighScoreDisplay.innerText = highScore;
                 localStorage.setItem('modernEcoBridgeScore', highScore);
             }
             
             if (score === scoreToSpawnFlower) {
                 flowers.push({ x: canvas.width + 50, y: Math.random() * (canvas.height - 200) + 100, size: 35 });
                 scoreToSpawnFlower += 10;
+            }
+
+            if (score >= 50) {
+                handleWin();
             }
         }
 
@@ -921,7 +566,7 @@
                 p.x -= speed;
 
                 if (!devModeActive && butterfly.x + 10 > p.x && butterfly.x - 10 < p.x + pillarWidth && (butterfly.y - 10 < p.top || butterfly.y + 10 > p.top + gap)) {
-                    handleDeath("Oops! You bumped into the structure.");
+                    handleDeath("You collided with the structure!");
                 }
                 if (p.x + pillarWidth < butterfly.x && !p.passed) {
                     p.passed = true;
@@ -941,6 +586,7 @@
                 if (dist < 30) {
                     extraLives++;
                     livesDisplay.innerText = extraLives;
+                    fsLivesDisplay.innerText = extraLives;
                     flowers.splice(i, 1);
                     i--;
                 }
@@ -958,7 +604,7 @@
                 if (light.x > -50 && light.x < canvas.width + 50) {
                     let dist = Math.hypot(butterfly.x - light.x, butterfly.y - light.y);
                     if (!devModeActive && dist < light.radius + 10) {
-                        handleDeath("Oh no! You got too close to the artificial light.");
+                        handleDeath("You were drawn into the artificial light!");
                     }
                     pullActive = true;
                     targetY = light.y;
@@ -984,11 +630,14 @@
         }
 
         function spawnEntities() {
-            if (frame % 90 === 0) {
+            let pillarSpawnRate = devModeActive ? 9 : 90;
+            if (frame % pillarSpawnRate === 0) {
                 let topHeight = Math.random() * (canvas.height - gap - 80) + 40;
                 pillars.push({ x: canvas.width, top: topHeight, passed: false });
             }
-            if (score >= 15 && frame % 350 === 0) {
+            
+            let lightSpawnRate = devModeActive ? 35 : 350;
+            if (score >= 15 && frame % lightSpawnRate === 0) {
                 lights.push({ x: canvas.width + 50, y: Math.random() * (canvas.height - 100) + 50, radius: 25 });
             }
         }
@@ -1000,6 +649,7 @@
             if (extraLives > 0) {
                 extraLives--;
                 livesDisplay.innerText = extraLives;
+                fsLivesDisplay.innerText = extraLives;
                 clearCurrentObstacles();
                 startCountdown("🌸 Extra Life Saved You! 🌸");
             } else if (hasSecondChance) {
@@ -1072,12 +722,17 @@
             score = 0;
             extraLives = 0;
             scoreToSpawnFlower = 10;
+            
             scoreDisplay.innerText = "0";
+            fsScoreDisplay.innerText = "0";
             livesDisplay.innerText = "0";
+            fsLivesDisplay.innerText = "0";
+            
             frame = 0;
             isDead = false;
             hasSecondChance = true; 
             deathOverlay.style.display = "none";
+            winOverlay.style.display = "none"; 
             startBtn.style.display = "none";
         }
 
@@ -1119,24 +774,37 @@
         window.addEventListener("keydown", (e) => {
             if (e.code === "Space") {
                 e.preventDefault();
-                if (isDead) {
-                    forceRestart();
-                } else if (isPlaying) {
-                    butterfly.velocity = butterfly.jump;
-                } else if (!isPlaying && startBtn.style.display !== "none") {
-                    startGame();
-                }
+                
+                // Prevent spacebar jumping if instructions overlay is open
+                if (instructionsOverlay.style.display === "flex") return;
+                
+                if (isDead) forceRestart();
+                else if (isPlaying) butterfly.velocity = butterfly.jump;
+                else if (!isPlaying && startBtn.style.display !== "none") startGame();
             }
         });
 
-        canvas.addEventListener("mousedown", () => {
-            if (isPlaying) {
-                butterfly.x -= 20; 
-                butterfly.velocity = butterfly.jump;
-            }
+        function processCanvasInteraction() {
+            if (isPlaying) butterfly.velocity = butterfly.jump;
+        }
+
+        canvas.addEventListener("mousedown", (e) => {
+            if (instructionsOverlay.style.display === "flex") return;
+            
+            if (isDead) forceRestart();
+            else if (!isPlaying && startBtn.style.display !== "none") startGame();
+            else processCanvasInteraction();
         });
+
+        canvas.addEventListener("touchstart", (e) => {
+            if (instructionsOverlay.style.display === "flex") return;
+            e.preventDefault(); 
+            
+            if (isDead) forceRestart();
+            else if (!isPlaying && startBtn.style.display !== "none") startGame();
+            else if (isPlaying && e.touches.length > 0) processCanvasInteraction();
+        }, {passive: false});
         
-        // Initial Canvas State
         ctx.fillStyle = "#0d9488";
         ctx.font = "800 24px Nunito";
         ctx.fillText("Ready to fly? Press SPACEBAR to start.", 180, 210);
